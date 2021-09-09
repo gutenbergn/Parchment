@@ -23,4 +23,8 @@ public struct PagingIndexItem: PagingItem, Hashable, Comparable {
   public static func <(lhs: PagingIndexItem, rhs: PagingIndexItem) -> Bool {
     return lhs.index < rhs.index
   }
+    
+  public var identifier: Int {
+    return self.index
+  }
 }

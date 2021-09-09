@@ -13,19 +13,33 @@ public protocol PagingItem {
 extension PagingItem where Self: Equatable {
   public func isEqual(to item: PagingItem) -> Bool {
     guard let item = item as? Self else { return false }
-    return self == item
+    
+    if let selfIndexItem = self as? PagingIndexItem, let indexItem = item as? PagingIndexItem {
+        return selfIndexItem.index == indexItem.index
+    } else {
+        return self == item
+    }
   }
 }
 
 extension PagingItem where Self: Comparable {
   public func isBefore(item: PagingItem) -> Bool {
     guard let item = item as? Self else { return false }
-    return self < item
+    
+    if let selfIndexItem = self as? PagingIndexItem, let indexItem = item as? PagingIndexItem {
+        return selfIndexItem.index < indexItem.index
+    } else {
+        return self < item
+    }
   }
 }
 
 extension PagingItem where Self: Hashable {
   public var identifier: Int {
-    return self.hashValue
+    if let selfIndexItem = self as? PagingIndexItem {
+        return selfIndexItem.index
+    } else {
+        return self.hashValue
+    }
   }
 }
